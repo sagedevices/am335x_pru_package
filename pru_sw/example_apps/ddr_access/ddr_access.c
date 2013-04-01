@@ -114,7 +114,7 @@ static int init(app_data *info)
 
 	// Write DRAM base addr into PRU memory
     info->pru_params->ddr_base_address = info->ddr_base_address;
-	// Write # bytes available for samples
+	// Write # bytes available
 	info->pru_params->ddr_bytes_available = info->ddr_size;
 
     fprintf(stderr, "Init complete\n");
@@ -123,7 +123,12 @@ static int init(app_data *info)
 }
 
 void check(app_data *info) {
-
+    int i = 0;
+    uint32_t *ddr = info->ddr_memory;
+    for (i = 0; i < 10; i++) {
+        printf("%i: 0x%X\n", i, ddr[i]);
+    }
+    printf("\n");
 }
 
 app_data info;
@@ -142,15 +147,15 @@ void intHandler(int dummy) {
     info.pru_params->run_flag = 0;
 }
 
-int workthread_running = 0;
+int workthread_running = 1;
 
 void* work_thread(void *arg) {
-    workthread_running = 1;
     while(info.pru_params->run_flag) {
         sleepms(500);
         // Do work in this thread
     }
     workthread_running = 0;
+    return NULL;
 }
 
 int main (void)
@@ -161,7 +166,6 @@ int main (void)
 
     tpruss_intc_initdata pruss_intc_initdata = PRUSS_INTC_INITDATA;
 
-    printf("\nINFO: Starting %s example.\r\n", "ddr_access");
     /* Initialize the PRU */
     prussdrv_init();
 
@@ -176,8 +180,6 @@ int main (void)
     /* Get the interrupt initialized */
     prussdrv_pruintc_init(&pruss_intc_initdata);
 
-    printf("\tINFO: init\r\n");
-
     init(&info);
 
 	signal (SIGQUIT, intHandler);
@@ -187,10 +189,9 @@ int main (void)
     pthread_create(&tid, NULL, &work_thread, NULL);
 
     /* Execute example on PRU */
-    printf("\t\tINFO: Executing example on PRU0.\r\n");
     prussdrv_exec_program (PRU_NUM0, "./ddr_access.bin");
 
-    printf("Waiting for consumer to finish");
+    printf("Press ctrl-c to stop running\n\n");
     while(workthread_running) {
         sleepms(250);
     }
@@ -200,8 +201,6 @@ int main (void)
 	prussdrv_pru_wait_event (PRU_EVTOUT_0);
     printf("\tINFO: PRU completed transfer.\r\n");
 	prussdrv_pru_clear_event (PRU0_ARM_INTERRUPT);
-
-    printf("CHECK\r\n");
 
     check(&info);
 
