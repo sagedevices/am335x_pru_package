@@ -1,3 +1,30 @@
+Updates to the BeagleBone PRU examples
+
+Getting Started
+---------------
+
+0. Log into your beaglebone and have git installed (opkg install git)
+1. git clone git@github.com:sagedevices/am335x_pru_package.git
+2. cd pru_sw/app_loader/interface
+3. make
+4. cd ../../example_apps
+5. make
+6. modprobe uio_pruss
+7. Run some of the examples in bin/
+
+References
+----------
+
+* http://blog.boxysean.com/2012/08/12/first-steps-with-the-beaglebone-pru/
+* http://processors.wiki.ti.com/index.php/Programmable_Realtime_Unit
+* http://processors.wiki.ti.com/index.php/PRU_Assembly_Instructions
+* http://processors.wiki.ti.com/index.php/PRU_Linux-based_Example_Code
+* http://caxapa.ru/thumbs/319913/PRUSS_Training_Slides.pdf
+
+
+Original TI Readme
+-------------------------------------------------------------
+
 AM335x PRU PACKAGE
 
 The hardware / software modules and descriptions referred 
