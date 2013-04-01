@@ -9,7 +9,18 @@ Getting Started
 3. make
 4. cd ../../example_apps
 5. make
-6. Run some of the examples in bin/
+6. modprobe uio_pruss
+7. Run some of the examples in bin/
+
+References
+----------
+
+* http://blog.boxysean.com/2012/08/12/first-steps-with-the-beaglebone-pru/
+* http://processors.wiki.ti.com/index.php/Programmable_Realtime_Unit
+* http://processors.wiki.ti.com/index.php/PRU_Assembly_Instructions
+* http://processors.wiki.ti.com/index.php/PRU_Linux-based_Example_Code
+* http://caxapa.ru/thumbs/319913/PRUSS_Training_Slides.pdf
+
 
 Original TI Readme
 -------------------------------------------------------------
