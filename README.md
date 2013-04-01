@@ -1,4 +1,3 @@
-
 Updates to the BeagleBone PRU examples
 
 Getting Started
