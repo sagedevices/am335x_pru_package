@@ -12,6 +12,11 @@ Getting Started
 6. modprobe uio_pruss
 7. Run some of the examples in bin/
 
+New Examples
+---------------
+
+* ddr_access:  Example showing the ARM and PRU sharing data via main system DDR memory
+
 References
 ----------
 
